@@ -1,23 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
+import {Header} from './Components/Header'; 
+import {Content} from './Components/Content';
+import {Footer} from './Components/Footer';
+
+const Nav = [
+  {name: "Home", link: "/"},
+  {name: "About", link: "/about"},
+]
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header name = "Cocktail Advisor" navigation = {Nav} /> 
+      <Content />  
+      <Footer />
     </div>
   );
 }
