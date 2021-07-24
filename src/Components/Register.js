@@ -3,7 +3,7 @@ export function Register(props) {
     const submitHandler = (event) => {
         event.preventDefault()
         const data = new FormData(event.target)
-        props.handler(data.get('email'), data.get('password'))
+        props.handler( data.get('email') , data.get('password'))
     }
 
 
