@@ -8,7 +8,7 @@ export function Login ( props ) {
   
     return(
       <form id="login" onSubmit={ submitHandler }>
-        <h4>Sign in to your account</h4>
+        <h1>Log into your account</h1>
         <label className="form-label" htmlFor="email">Email</label>
         <input className="form-control" type="email" name="email" id="email" />
         <label className="form-label" htmlFor="password">Password</label>

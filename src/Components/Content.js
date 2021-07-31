@@ -4,7 +4,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/storage';
 import 'firebase/firestore';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
 import { Home } from './Home'
@@ -12,20 +12,83 @@ import { About } from './About'
 import { Register } from './Register'
 import { Login } from './Login';
 import { Logout } from './Logout';
+import { AddCocktail } from './Admin/AddCocktail';
+import { Cocktail } from './Cocktails';
 
 export function Content(props) {
   const [auth, setAuth] = useState(false)
   const [user, setUser] = useState()
+  const [ cocktailData, setCocktailData ] = useState()
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
 
-  const registerUser = (email, password) => {
+  useEffect( () => {
+    if( !cocktailData ) {
+      readCocktailsData()
+      .then( ( data ) => {
+        console.log(data)
+        setCocktailData( data )
+      })
+      .catch( (error) => console.log(error) )
+    }
+  }, [cocktailData])
+
+  const db = firebase.firestore()
+
+  const addCocktail = ( data ) => {
+    return new Promise( ( resolve,reject) => {
+      db.collection('Cocktails').add( data )
+      .then( () => resolve( true ) )
+      .catch( (error) => reject(error) )
+    })
+  }
+
+  const addUser = ( data ) => {
+    return new Promise( ( resolve,reject) => {
+      db.collection('Users').add( data )
+      .then( () => resolve( true ) )
+      .catch( (error) => reject(error) )
+    })
+  }
+
+  const readCocktailsData = () => {
+    return new Promise( (resolve,reject) => {
+      db.collection('Cocktails').onSnapshot( (querySnapshot) => {
+        let cocktails = []
+        querySnapshot.forEach( (doc) => {
+          let cocktail = doc.data()
+          cocktail.id = doc.id
+          cocktails.push( cocktail )
+        })
+        resolve( cocktails )
+      })
+    })
+  }
+
+  const storage = firebase.storage()
+
+  // example path 'cocktails/covers/image1.jpg'
+  const addImage = ( path, image ) => {
+    return new Promise( (resolve,reject) => {
+      storage.ref( path ).put(image)
+      .then(() => {
+        storage.ref( path ).getDownloadURL()
+        .then(( url ) => resolve(url) )
+        .catch((errors) => reject(errors) )
+      })
+      .catch( (errors) => reject(errors) )
+    })
+  }
+
+  const registerUser = (email, password, userName, name) => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         // do something with the user object
         //console.log( userCredential.user.uid )
+        //addUser(userName, name)
+
         setUser(userCredential.user)
         setAuth(true)
         props.authHandler(true)
@@ -64,13 +127,16 @@ export function Content(props) {
 
   return (
     <div className="container">
-      <h1>This is the CONTENT where we're going to add everything that we need for our homepage ;))</h1>
+      <br></br>
       <Switch>
         <Route exact path="/">
           <Home />
         </Route>
         <Route path="/about">
           <About />
+        </Route>
+        <Route path="/cocktails">
+          <Cocktail data={cocktailData} />
         </Route>
         <Route path="/register">
           <Register handler={registerUser} />
@@ -80,6 +146,9 @@ export function Content(props) {
         </Route>
         <Route path="/logout">
           <Logout handler={logoutUser} />
+        </Route>
+        <Route path="/addCocktails">
+          <AddCocktail handler={addCocktail} imageHandler={addImage}/>
         </Route>
       </Switch>
     </div>
