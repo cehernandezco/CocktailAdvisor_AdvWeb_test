@@ -3,3 +3,6 @@
   display: grid;
   grid-template-rows: auto 1fr auto; 
 }
+form h1{
+  text-align: center;
+}
