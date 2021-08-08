@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export function Cocktail ( props ) {
   const [ data, setData ] = useState()
@@ -19,7 +20,11 @@ export function Cocktail ( props ) {
     const Cocktails = data.map( (item, key) => {
       return(
         <div className="col-md-3 my-2" key={key}>
-          <div className="card">
+          <div className="card position-relative">
+            <Link 
+            className ="position-absolute" 
+            to= { "cocktail/" + item.id } 
+            style={{top:0, bottom:0, left:0, right:0}}/>
             <img 
             src={item.photo} 
             className="card-img-top border border-primary" 

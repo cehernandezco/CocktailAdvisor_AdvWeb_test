@@ -14,6 +14,7 @@ import { Login } from './Login';
 import { Logout } from './Logout';
 import { AddCocktail } from './Admin/AddCocktail';
 import { Cocktail } from './Cocktails';
+import { CocktailsDetail } from './CocktailsDetail';
 
 export function Content(props) {
   const [auth, setAuth] = useState(false)
@@ -64,6 +65,16 @@ export function Content(props) {
         })
         resolve( cocktails )
       })
+    })
+  }
+
+  const getCocktailsDetail = ( id ) => {
+    return new Promise( (resolve,reject) => {
+      db.collection('Cocktails').doc(id).get()
+      .then( ( doc ) => {
+          resolve( doc.data() )
+      })
+      .catch((error) => reject( error ))
     })
   }
 
@@ -148,7 +159,10 @@ export function Content(props) {
           <Logout handler={logoutUser} />
         </Route>
         <Route path="/addCocktails">
-          <AddCocktail handler={addCocktail} imageHandler={addImage}/>
+          <AddCocktail handler={addCocktail} imageHandler={addImage} />
+        </Route>
+        <Route path="/cocktail/:cocktailId">
+          <CocktailsDetail handler={getCocktailsDetail} />
         </Route>
       </Switch>
     </div>
