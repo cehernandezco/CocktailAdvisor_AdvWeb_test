@@ -1,9 +1,20 @@
+import { useHistory } from "react-router"
+
 export function Login ( props ) {
+
+const history = useHistory()
 
     const submitHandler = ( event ) => {
       event.preventDefault()
       const data = new FormData( event.target )
       props.handler( data.get('email'), data.get('password') )
+      .then( ( response ) => {
+        if( response === true ) {} 
+          history.push('/')
+      })
+      .catch( (error) => {
+        console.log( error )
+      })
     }
   
     return(

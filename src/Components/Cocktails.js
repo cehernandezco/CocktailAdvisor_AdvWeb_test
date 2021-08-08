@@ -34,7 +34,7 @@ export function Cocktail ( props ) {
             <div className="card-body">
               <h5 className="card-title">{item.name}</h5>
               <p style={{minHeight: '5ch'}}>{item.description}</p>
-              <p>{item.steps}</p>
+              {/* <p>{item.steps}</p> */}
             </div>
           </div>
         </div>
