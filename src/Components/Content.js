@@ -13,13 +13,16 @@ import { Register } from './Register'
 import { Login } from './Login';
 import { Logout } from './Logout';
 import { AddCocktail } from './Admin/AddCocktail';
+import { AddIngredient } from './Admin/AddIngredient';
 import { Cocktail } from './Cocktails';
 import { CocktailsDetail } from './CocktailsDetail';
+import { IngredientsDetail } from './IngredientsDetail';
 
 export function Content(props) {
   const [auth, setAuth] = useState(false)
   const [user, setUser] = useState()
   const [ cocktailData, setCocktailData ] = useState()
+  const [ ingredientData, setIngredientData ] = useState()
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -36,11 +39,29 @@ export function Content(props) {
     }
   }, [cocktailData])
 
+  useEffect( () => {
+    if( !ingredientData ) {
+      readIngredientsData()
+      .then( ( data ) => {
+        console.log(data)
+        setIngredientData( data )
+      })
+      .catch( (error) => console.log(error) )
+    }
+  }, [ingredientData])
+
   const db = firebase.firestore()
 
   const addCocktail = ( data ) => {
     return new Promise( ( resolve,reject) => {
       db.collection('Cocktails').add( data )
+      .then( () => resolve( true ) )
+      .catch( (error) => reject(error) )
+    })
+  }
+  const addIngredient = ( data ) => {
+    return new Promise( ( resolve,reject) => {
+      db.collection('Ingredients').add( data )
       .then( () => resolve( true ) )
       .catch( (error) => reject(error) )
     })
@@ -67,10 +88,32 @@ export function Content(props) {
       })
     })
   }
+  const readIngredientsData = () => {
+    return new Promise( (resolve,reject) => {
+      db.collection('Ingredients').onSnapshot( (querySnapshot) => {
+        let ingredients = []
+        querySnapshot.forEach( (doc) => {
+          let ingredient = doc.data()
+          ingredient.id = doc.id
+          ingredients.push( ingredient )
+        })
+        resolve( ingredients )
+      })
+    })
+  }
 
   const getCocktailsDetail = ( id ) => {
     return new Promise( (resolve,reject) => {
       db.collection('Cocktails').doc(id).get()
+      .then( ( doc ) => {
+          resolve( doc.data() )
+      })
+      .catch((error) => reject( error ))
+    })
+  }
+  const getIngredientsDetail = ( id ) => {
+    return new Promise( (resolve,reject) => {
+      db.collection('Ingredients').doc(id).get()
       .then( ( doc ) => {
           resolve( doc.data() )
       })
@@ -149,6 +192,9 @@ export function Content(props) {
         <Route path="/cocktails">
           <Cocktail data={cocktailData} />
         </Route>
+        <Route path="/ingredients">
+          <Cocktail data={ingredientData} />
+        </Route>
         <Route path="/register">
           <Register handler={registerUser} />
         </Route>
@@ -161,8 +207,16 @@ export function Content(props) {
         <Route path="/addCocktails">
           <AddCocktail handler={addCocktail} imageHandler={addImage} />
         </Route>
+        
         <Route path="/cocktail/:cocktailId">
           <CocktailsDetail handler={getCocktailsDetail} />
+        </Route>
+        
+        <Route path="/addIngredients">
+          <AddCocktail handler={addIngredient} imageHandler={addImage} />
+        </Route>
+        <Route path="/ingredient/:ingredientId">
+          <IngredientsDetail handler={getIngredientsDetail} />
         </Route>
       </Switch>
     </div>
