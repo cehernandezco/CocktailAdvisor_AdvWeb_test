@@ -1,7 +1,17 @@
 export function Home(props) {
+
+    const username = () => {
+        if ( props.auth === true){
+            <h5> props.user</h5>
+        } else {
+            
+        }
+    }
     return (
         <div className="Home">
-
+            <div>
+                <h2>Welcome {username}</h2>
+            </div>
             <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
                 <div className="carousel-inner mb-4">
                     <div className="carousel-item active">

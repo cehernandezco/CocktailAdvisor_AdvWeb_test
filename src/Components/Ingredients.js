@@ -17,13 +17,13 @@ export function Ingredient ( props ) {
     )
   }
   else {
-    const Cocktails = data.map( (item, key) => {
+    const Ingredients = data.map( (item, key) => {
       return(
         <div className="col-md-3 my-2" key={key}>
           <div className="card position-relative">
             <Link 
             className ="position-absolute" 
-            to= { "cocktail/" + item.id } 
+            to= { "ingredient/" + item.id } 
             style={{top:0, bottom:0, left:0, right:0}}/>
             <img 
             src={item.photo} 
@@ -34,7 +34,7 @@ export function Ingredient ( props ) {
             <div className="card-body">
               <h5 className="card-title">{item.name}</h5>
               <p style={{minHeight: '5ch'}}>{item.description}</p>
-              <p>{item.steps}</p>
+              
             </div>
           </div>
         </div>
@@ -42,9 +42,9 @@ export function Ingredient ( props ) {
     })
     return(
       <div className="ingredients">
-        <h2>Cocktails</h2>
+        <h2>Ingredients</h2>
         <div className="row">
-        { Cocktails }
+        { Ingredients }
         </div>
       </div>
     )

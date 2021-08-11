@@ -23,6 +23,7 @@ export function CocktailsDetail(props){
             history.push('/login')
         }
     }
+    
 
     /* const addToFavourites = () => {
 
@@ -40,13 +41,17 @@ export function CocktailsDetail(props){
                 </div>
                 <div className="col-md-6">
                     <h3>{cocktail.name}</h3>
+                    <h6 className="text-dark">{cocktail.description}</h6>
+                    <br></br>
+                    
+                    <br></br>
                     <h6> Steps: {cocktail.steps}</h6>
                     {/* not working */}
                     {/* <h4>{cocktail.ingredients}</h4> */}
                     <div className="d-flex">
 
                         <button type="button" 
-                        className="btn btn-primary mt-2"
+                        className="btn btn-outline-primary mt-2"
                         onClick={addReview}>
                             Review Cocktail
                         </button>
@@ -69,7 +74,7 @@ export function CocktailsDetail(props){
                             </select>
                             <label>Say something about the cocktail</label>
                             <textarea name="comment" cols="30" rows="3" className="form-control" placeholder="..."></textarea>
-                            <button type="submit" className="btn btn-success mb-2">Save</button>
+                            <button type="submit" className="btn btn-primary mb-2">Save</button>
                         </form>
                     </div>
                 </div>

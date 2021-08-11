@@ -15,6 +15,7 @@ import { Logout } from './Logout';
 import { AddCocktail } from './Admin/AddCocktail';
 import { AddIngredient } from './Admin/AddIngredient';
 import { Cocktail } from './Cocktails';
+import { Ingredient } from './Ingredients';
 import { CocktailsDetail } from './CocktailsDetail';
 import { IngredientsDetail } from './IngredientsDetail';
 
@@ -24,9 +25,6 @@ export function Content(props) {
 
   const [ cocktailData, setCocktailData ] = useState()
   const [ ingredientData, setIngredientData ] = useState()
-
-  const [cocktailData, setCocktailData] = useState()
-
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -204,7 +202,7 @@ export function Content(props) {
       <br></br>
       <Switch>
         <Route exact path="/">
-          <Home />
+          <Home auth={auth} user={user}/>
         </Route>
         <Route path="/about">
           <About />
@@ -213,7 +211,7 @@ export function Content(props) {
           <Cocktail data={cocktailData} />
         </Route>
         <Route path="/ingredients">
-          <Cocktail data={ingredientData} />
+          <Ingredient data={ingredientData} />
         </Route>
         <Route path="/register">
           <Register handler={registerUser} />
@@ -233,7 +231,7 @@ export function Content(props) {
         </Route>
         
         <Route path="/addIngredients">
-          <AddCocktail handler={addIngredient} imageHandler={addImage} />
+          <AddIngredient handler={addIngredient} imageHandler={addImage} />
         </Route>
         <Route path="/ingredient/:ingredientId">
           <IngredientsDetail handler={getIngredientsDetail} />

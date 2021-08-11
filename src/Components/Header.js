@@ -12,7 +12,7 @@ export function Header( props ) {
     })
     return (
                                                 //colours for header (words and background)
-        <nav className="navbar navbar-expand-lg navbar-primary bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
                 <a className="navbar-brand" href="#">
                     <img src="/images/logobrand.png"></img> 

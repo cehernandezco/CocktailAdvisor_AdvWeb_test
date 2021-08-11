@@ -51,15 +51,30 @@ export function AddIngredient(props) {
       </div>
     )
   }
+  function capitaliseText (event) {
+    const { value } = event.target.value
+    
+    
+  }
+
 
   return (
     <form id="add-data" onSubmit={submitHandler}>
       <h2>Add a Ingredients</h2>
       <label htmlFor="title">Ingredient Title</label>
-      <input type="text" className="form-control" name="name" placeholder="Ingredient title" id="name" />
+      <input type="text" onChange={capitaliseText} className="form-control" name="name" placeholder="Ingredient title" id="name" />
+      <input type="text" style={{textTransform:"uppercase"}} className="form-control" placeholder="Ingredient title capitalised" name="name_insensitive" id="name_insensitive" />
       <label htmlFor="tagline">Description</label>
       <textarea className="form-control" name="description" placeholder="Ingredient description" id="description" />
-
+      <label htmlFor="tagline">Type</label>
+      <select className="form-select  mb-3" name="type" id="type">
+          <option value="Alcoholic">Alcoholic</option>
+          <option value="Fruit">Fruit</option>
+          <option value="Plant">Plant</option>
+          <option value="Non-alcoholic">Non-alcoholic</option>
+          <option value="Seed ">Seed</option>
+      </select>
+      
       
       <label htmlFor="cover_image">Image</label>
       <input type="file" className="form-control" name="photo" placeholder="Ingredient image" id="photo" />

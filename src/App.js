@@ -10,9 +10,10 @@ const Nav = [
   { name: "Home", link: "/" },
   { name: "About", link: "/about" },
   { name: "Cocktails", link: "/cocktails" },
+  { name: "Ingredients", link: "/ingredients" },
   { name: "Register", link: "/register" },
   { name: "Login", link: "/login" },
-  { name: "Ingredients", link: "/ingredients" },
+  
   
 ]
 
@@ -20,8 +21,8 @@ const AuthNav = [
   { name: "Home", link: "/" },
   { name: "About", link: "/about" },
   { name: "Cocktails", link: "/cocktails" },
-  { name: "Add Cocktails", link: "/addCocktails" },
   { name: "Ingredients", link: "/ingredients" },
+  { name: "Add Cocktails", link: "/addCocktails" },
   { name: "Add Ingredients", link: "/addIngredients" },
   { name: "Log out", link: "/logout" },
 ]
