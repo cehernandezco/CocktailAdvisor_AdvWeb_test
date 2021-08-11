@@ -1,8 +1,9 @@
 export function Footer ( props ) {
     return(
-        <footer className="footer bg-primary">
+        <footer className="footer bg-dark">
             <div className="container-fluid text-light"> 
-            <h1>FOOTER where we're going to add what we need for our beatiful footer :D</h1>
+                <img className="footerLogo mt-4 mb-4 mx-auto d-block" src="/images/footerLogo.png" 
+                height="60"></img> 
             </div>
         </footer>
     )
