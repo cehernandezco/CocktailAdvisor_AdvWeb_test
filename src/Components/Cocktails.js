@@ -35,6 +35,7 @@ export function Cocktail ( props ) {
               <h5 className="card-title">{item.name}</h5>
               
             </div>
+            
           </div>
         </div>
       )
