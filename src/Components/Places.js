@@ -27,14 +27,12 @@ export function Place ( props ) {
             style={{top:0, bottom:0, left:0, right:0}}/>
             <img 
             src={item.photo} 
-            className="card-img-top border border-primary" 
+            className="card-img-top border" 
             alt={item.name} 
             style={{width: '100%', height: '300px', objectFit: 'cover', objectPosition: 'center'}}
             />
             <div className="card-body">
               <h5 className="card-title">{item.name}</h5>
-              <p style={{minHeight: '5ch'}}>{item.description}</p>
-              
             </div>
           </div>
         </div>
