@@ -118,13 +118,46 @@ export function Content(props) {
 
   const getCocktailsDetail = (id) => {
     return new Promise((resolve, reject) => {
-      db.collection('Cocktails').doc(id).get()
-        .then((doc) => {
-          resolve(doc.data())
+      const ref = db.collection('Cocktails').doc(id)
+        ref.get()
+        .then( (response) => {
+          let cocktail = response.data()
+          // get all the ingredients
+          ref.collection( 'Ingredients' ).get()
+            .then( (items) => {
+              let ingredients = []
+              items.forEach( (item) => {
+                ingredients.push( item.data() )
+              })
+              // add ingredients array as cocktail.ingredients
+              cocktail.ingredients = ingredients
+              resolve(cocktail)
+            })
+          
         })
         .catch((error) => reject(error))
     })
   }
+
+  const getCocktailReviews = (id) => {
+    return new Promise((resolve, reject) => {
+      db.collection("Reviews").where("cocktail", "==", id)
+    .get()
+    .then((querySnapshot) => {
+      let reviews = []
+      querySnapshot.forEach( (doc) => {
+        let review = doc.data()
+        review.id = doc.id
+        reviews.push( review )
+      })
+      resolve( reviews )
+    })
+    .catch((error) => reject(error))
+      
+    })
+  }
+
+
   const getIngredientsDetail = ( id ) => {
     return new Promise( (resolve,reject) => {
       db.collection('Ingredients').doc(id).get()
@@ -227,7 +260,7 @@ export function Content(props) {
         </Route>
         
         <Route path="/cocktail/:cocktailId">
-          <CocktailsDetail handler={getCocktailsDetail} auth={auth} />
+          <CocktailsDetail handler={getCocktailsDetail} auth={auth} handlerReviews = {getCocktailReviews}/>
         </Route>
         
         <Route path="/addIngredients">
