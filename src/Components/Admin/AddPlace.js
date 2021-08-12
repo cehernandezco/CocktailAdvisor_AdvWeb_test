@@ -78,6 +78,7 @@ export function AddPlace(props) {
           <option value="Friday ">Friday</option>
           <option value="Saturday ">Saturday</option>
           <option value="Sunday ">Sunday</option>
+          <option value="Allways Open ">Always Open</option>
       </select>
 
 
