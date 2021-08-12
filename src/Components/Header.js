@@ -1,14 +1,34 @@
 import { NavLink } from "react-router-dom";
+import { SubMenu } from "./SubMenu";
 
 export function Header( props ) {
+    
+
     const SiteNav = props.navigation.map( (item) => {
-        return (
-            <li className="nav-item">
-                <NavLink to = {item.link} className = "nav-link" activeClassName ="active" > 
-                    {item.name}
-                </NavLink>
-            </li>
-        )
+        if(item.submenu === undefined){
+            return (
+                <li className="nav-item">
+                    <NavLink to = {item.link} className = "nav-link" activeClassName ="active" > 
+                        {item.name}
+                    </NavLink>
+                </li> 
+            )
+        }else{
+            return (
+                <li className="nav-item dropdown">
+                    <NavLink to = {item.link} className = "nav-link dropdown-toggle" activeClassName ="active" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+                        {item.name}
+                    </NavLink>
+                    
+                    
+                    <SubMenu subItems={item.submenu} />
+                        
+                    
+                </li>
+            )
+
+        }
+        
     })
     return (
                                                 //colours for header (words and background)
