@@ -73,6 +73,8 @@ export function AddIngredient(props) {
           <option value="Plant">Plant</option>
           <option value="Non-alcoholic">Non-alcoholic</option>
           <option value="Seed ">Seed</option>
+          <option value="Seed ">Condiment</option>
+          <option value="Seed ">Vegetable</option>
       </select>
       
       
