@@ -14,10 +14,13 @@ import { Login } from './Login';
 import { Logout } from './Logout';
 import { AddCocktail } from './Admin/AddCocktail';
 import { AddIngredient } from './Admin/AddIngredient';
+import { AddPlace } from './Admin/AddPlace';
 import { Cocktail } from './Cocktails';
 import { Ingredient } from './Ingredients';
+import { Place } from './Places';
 import { CocktailsDetail } from './CocktailsDetail';
 import { IngredientsDetail } from './IngredientsDetail';
+import { PlacesDetail } from './PlacesDetail';
 
 export function Content(props) {
   const [auth, setAuth] = useState(false)
@@ -25,6 +28,7 @@ export function Content(props) {
 
   const [ cocktailData, setCocktailData ] = useState()
   const [ ingredientData, setIngredientData ] = useState()
+  const [ placeData, setPlaceData ] = useState()
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -64,6 +68,17 @@ export function Content(props) {
     }
   }, [ingredientData])
 
+  useEffect( () => {
+    if( !placeData ) {
+      readPlacesData()
+      .then( ( data ) => {
+        console.log(data)
+        setPlaceData( data )
+      })
+      .catch( (error) => console.log(error) )
+    }
+  }, [placeData])
+
   const db = firebase.firestore()
 
   const addCocktail = (data) => {
@@ -76,6 +91,13 @@ export function Content(props) {
   const addIngredient = ( data ) => {
     return new Promise( ( resolve,reject) => {
       db.collection('Ingredients').add( data )
+      .then( () => resolve( true ) )
+      .catch( (error) => reject(error) )
+    })
+  }
+  const addPlace = ( data ) => {
+    return new Promise( ( resolve,reject) => {
+      db.collection('Places').add( data )
       .then( () => resolve( true ) )
       .catch( (error) => reject(error) )
     })
@@ -112,6 +134,20 @@ export function Content(props) {
           ingredients.push( ingredient )
         })
         resolve( ingredients )
+      })
+    })
+  }
+
+  const readPlacesData = () => {
+    return new Promise( (resolve,reject) => {
+      db.collection('Places').onSnapshot( (querySnapshot) => {
+        let places = []
+        querySnapshot.forEach( (doc) => {
+          let place = doc.data()
+          place.id = doc.id
+          places.push( place )
+        })
+        resolve( places )
       })
     })
   }
@@ -161,6 +197,16 @@ export function Content(props) {
   const getIngredientsDetail = ( id ) => {
     return new Promise( (resolve,reject) => {
       db.collection('Ingredients').doc(id).get()
+      .then( ( doc ) => {
+          resolve( doc.data() )
+      })
+      .catch((error) => reject( error ))
+    })
+  }
+
+  const getPlacesDetail = ( id ) => {
+    return new Promise( (resolve,reject) => {
+      db.collection('Places').doc(id).get()
       .then( ( doc ) => {
           resolve( doc.data() )
       })
@@ -246,6 +292,9 @@ export function Content(props) {
         <Route path="/ingredients">
           <Ingredient data={ingredientData} />
         </Route>
+        <Route path="/places">
+          <Place data={placeData} />
+        </Route>
         <Route path="/register">
           <Register handler={registerUser} />
         </Route>
@@ -268,6 +317,12 @@ export function Content(props) {
         </Route>
         <Route path="/ingredient/:ingredientId">
           <IngredientsDetail handler={getIngredientsDetail} />
+        </Route>
+        <Route path="/addPlaces">
+          <AddPlace handler={addPlace} imageHandler={addImage} />
+        </Route>
+        <Route path="/place/:placeId">
+          <PlacesDetail handler={getPlacesDetail} />
         </Route>
       </Switch>
     </div>

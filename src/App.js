@@ -11,6 +11,7 @@ const Nav = [
   { name: "About", link: "/about" },
   { name: "Cocktails", link: "/cocktails" },
   { name: "Ingredients", link: "/ingredients" },
+  { name: "Places", link: "/places" },
   { name: "Register", link: "/register" },
   { name: "Login", link: "/login" },
   
@@ -22,8 +23,10 @@ const AuthNav = [
   { name: "About", link: "/about" },
   { name: "Cocktails", link: "/cocktails" },
   { name: "Ingredients", link: "/ingredients" },
+  { name: "Places", link: "/places" },
   { name: "Add Cocktails", link: "/addCocktails" },
   { name: "Add Ingredients", link: "/addIngredients" },
+  { name: "Add Places", link: "/addPlaces" },
   { name: "Log out", link: "/logout" },
 ]
 
