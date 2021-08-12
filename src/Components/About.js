@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
 export function About ( props ) {
     return(
         <div className = "About">
@@ -15,7 +18,16 @@ export function About ( props ) {
                         <li class="socialList"> vouchers</li>
                         <li class="socialList"> and much more... </li>
                     </ul>
+                    
+                    
+
                     <div className="socialIcons">
+                        <FontAwesomeIcon icon={['fab', 'instagram']} size="2x" />
+                        <FontAwesomeIcon icon={['fab', 'facebook']} size="2x" />
+                        <FontAwesomeIcon icon={['fab', 'twitter']} size="2x" />
+                        <FontAwesomeIcon icon={['fab', 'snapchat']} size="2x" />
+                        <FontAwesomeIcon icon={['fab', 'tiktok']} size="2x" />
+                        
                         <button className="btn btn-outline-light"><img src="/images/instagramIcon.png" className="instagramIcon" alt="instagramIcon"/></button>
                         <button className="btn btn-outline-light"><img src="/images/facebookIcon.png" className="instagramIcon" alt="facebookIcon"/></button>
                         <button className="btn btn-outline-light"><img src="/images/twitterIcon.png" className="instagramIcon" alt="twitterIcon"/></button>
