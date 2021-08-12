@@ -53,7 +53,7 @@ export function AddPlace(props) {
   }
   function capitaliseText (event) {
     const { value } = event.target.value
-    
+    document.getElementById("name_insensitive").value = event.target.value.toUpperCase()
     
   }
 
@@ -63,7 +63,7 @@ export function AddPlace(props) {
       <h2>Add a Place</h2>
       <label htmlFor="title">Place Title</label>
       <input type="text" onChange={capitaliseText} className="form-control" name="name" placeholder="Place title" id="name" />
-      <input type="text" style={{textTransform:"uppercase"}} className="form-control" placeholder="Place title capitalised" name="name_insensitive" id="name_insensitive" />
+      <input type="hidden" style={{textTransform:"uppercase"}} className="form-control" placeholder="Place title capitalised" name="name_insensitive" id="name_insensitive" />
       <label htmlFor="tagline">Adress</label>
       <textarea className="form-control" name="address" placeholder="Adress of the place" id="address" />
       <label htmlFor="tagline">Opening Hours</label>

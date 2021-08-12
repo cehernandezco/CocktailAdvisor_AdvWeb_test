@@ -53,7 +53,7 @@ export function AddIngredient(props) {
   }
   function capitaliseText (event) {
     const { value } = event.target.value
-    
+    document.getElementById("name_insensitive").value = event.target.value.toUpperCase()
     
   }
 
@@ -63,7 +63,7 @@ export function AddIngredient(props) {
       <h2>Add a Ingredients</h2>
       <label htmlFor="title">Ingredient Title</label>
       <input type="text" onChange={capitaliseText} className="form-control" name="name" placeholder="Ingredient title" id="name" />
-      <input type="text" style={{textTransform:"uppercase"}} className="form-control" placeholder="Ingredient title capitalised" name="name_insensitive" id="name_insensitive" />
+      <input type="hidden" style={{textTransform:"uppercase"}} className="form-control" placeholder="Ingredient title capitalised" name="name_insensitive" id="name_insensitive" />
       <label htmlFor="tagline">Description</label>
       <textarea className="form-control" name="description" placeholder="Ingredient description" id="description" />
       <label htmlFor="tagline">Type</label>
