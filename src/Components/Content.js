@@ -169,7 +169,7 @@ export function Content(props) {
               cocktail.ingredients = ingredients
               resolve(cocktail)
             })
-          
+          console.log(cocktail)
         })
         .catch((error) => reject(error))
     })
