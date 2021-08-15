@@ -25,14 +25,10 @@ export function PlacesDetail(props){
                     <img className="img-fluid img-thumbnail mb-4" src={place.photo}/>  
                 </div>
                 <div className="col-md-6">
-                    <h3>{place.name}</h3>
-                    <h4>{place.address}</h4>
-                    <h5>{place.openingHours}</h5>
-                    <h6>{place.closingDays}</h6>
-                    
-                   
-                    {/* not working */}
-                    
+                    <h3> <strong> {place.name} </strong></h3>
+                    <h4> <em>Address:</em> {place.address}</h4>
+                    <h5> <em>Opening hours:</em> {place.openingHours}</h5>
+                    <h6> <em>Closing day:</em> {place.closingDays}</h6>            
                 </div>
             </div>
         )
