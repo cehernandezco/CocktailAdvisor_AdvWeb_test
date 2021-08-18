@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import {Spinner} from './Spinner';
 
 export function Place ( props ) {
   const [ data, setData ] = useState()
@@ -10,11 +11,7 @@ export function Place ( props ) {
   
 
   if( !data ) {
-    return(
-      <div className="places">
-        <h2>Getting data ...</h2>
-      </div>
-    )
+    return <Spinner size={64}/>
   }
   else {
     const Places = data.map( (item, key) => {
