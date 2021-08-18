@@ -162,7 +162,7 @@ export function CocktailsDetail(props) {
               <label>Say something about the cocktail</label>
               <textarea name="comment" cols="30" rows="3" className="form-control" placeholder="..."></textarea>
               <input type="hidden" name="cocktail" value={cocktailId} />
-              <input type="hidden" name="user" value={(props.user) ? props.user.uid: ""} />
+              <input type="hidden" name="userId" value={(props.user) ? props.user.uid: ""} />
               <input type="hidden" name="username" value={(props.user) ? props.user.displayName : ""} />
               <button type="submit" className="btn btn-primary mb-2">Save</button>
             </form>
