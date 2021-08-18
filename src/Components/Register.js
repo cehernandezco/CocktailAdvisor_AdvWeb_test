@@ -3,13 +3,44 @@ import { Link } from 'react-router-dom'
 import { useHistory, useLocation } from "react-router"
 import { emailValidator, userNameValidator, passwordValidator } from "./Validators"
 
+const useQuery = () => {
+    return new URLSearchParams(useLocation().search)
+}
 
 export function Register(props) {
+
+    const history = useHistory()
+    const query = useQuery()
+
+    const [returnPath, setReturnPath] = useState()
+    const [validUserName, setValidUserName] = useState()
+    const [userNameErrors, setUserNameErrors] = useState([])
+    const [validEmail, setValidEmail] = useState()
+    const [emailErrors, setEmailErrors] = useState([])
+    const [validPassword, setValidPassword] = useState()
+    const [passwordErrors, setPasswordErrors] = useState([])
+    const [validForm, setValidForm] = useState(false)
+
+    useEffect(() => {
+        const path = query.get('returnPath')
+        if (path !== undefined) {
+          setReturnPath(path)
+        }
+      },[ query ])
+
+    useEffect(() => {
+        if (validUserName && validEmail && validPassword) {
+            setValidForm(true)
+        }
+        else {
+            setValidForm(false)
+        }
+    }, [validUserName, validEmail, validPassword])
 
     const submitHandler = (event) => {
         event.preventDefault()
         const data = new FormData(event.target)
-        props.handler(data.get('email'), data.get('password'), data.get('userName'),data.get('inputName'))
+        props.handler(data.get('email'), data.get('password'), data.get('userName'), data.get('name'))
     }
 
 
