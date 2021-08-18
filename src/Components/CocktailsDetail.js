@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
+import {Spinner} from './Spinner';
 
 
 export function CocktailsDetail(props) {
@@ -93,7 +94,7 @@ export function CocktailsDetail(props) {
   }  */
 
   if (!cocktail) {
-    return <h3>Loading cocktails...</h3>
+    return <Spinner size={64}/>
   }
   else {
     console.log(cocktail)
