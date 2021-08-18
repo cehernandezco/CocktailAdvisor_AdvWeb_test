@@ -9,7 +9,7 @@ export function Register(props) {
     const submitHandler = (event) => {
         event.preventDefault()
         const data = new FormData(event.target)
-        props.handler(data.get('email'), data.get('password'), data.get('userName'),data.get('inputName'))
+        props.handler(data.get('email'), data.get('password'), data.get('username'),data.get('name'))
     }
 
 
@@ -32,23 +32,23 @@ export function Register(props) {
                     </div>
                     <div className="col-12">
                         <label htmlFor="inputUserName" className="form-label">User Name</label>
-                        <input type="text" className="form-control" id="inputUserName" name="inputUserName" placeholder="Input User Name"/>
+                        <input type="text" className="form-control" id="username" name="username" placeholder="Input Username"/>
                     </div>
                     <div className="col-md-6">
                         <label htmlFor="inputName" className="form-label">Name</label>
-                        <input type="text" className="form-control" id="inputName" name="inputName" placeholder="Input your Name"/>
+                        <input type="text" className="form-control" id="name" name="name" placeholder="Input your Name"/>
                     </div>
                     <div className="col-md-4">
                         <label htmlFor="inputSurname" className="form-label">Surname</label>
-                        <input type="text" className="form-control" id="inputSurname" name="inputSurname" placeholder="Input your SurName" />
+                        <input type="text" className="form-control" id="surname" name="surname" placeholder="Input your SurName" />
                     </div>
                     <div className="col-md-2">
                         <label htmlFor="inputdob" className="form-label">Date Of Birth</label>
-                        <input type="date" className="form-control" id="inputdob" name="inputdob" />
+                        <input type="date" className="form-control" id="dob" name="dob" />
                     </div>
                     <div className="col-12 col-md-6">
                         <label htmlFor="inputSuburb" className="form-label">Suburb</label>
-                        <input type="text" className="form-control" id="inputSuburb" name="inputSuburb" placeholder="Input your Subrub" />
+                        <input type="text" className="form-control" id="suburb" name="suburb" placeholder="Input your Subrub" />
                     </div>
 
                     

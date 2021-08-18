@@ -15,30 +15,30 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 library.add(fab, fas);
 
 const Nav = [
-  { name: "Home", link: "/" },
-  { name: "About", link: "/about" },
-  { name: "Cocktails", link: "/cocktails" },
-  { name: "Ingredients", link: "/ingredients" },
-  { name: "Places", link: "/places" },
-  { name: "Register", link: "/register" },
-  { name: "Login", link: "/login" },
+  { name: "Home", link: "/" , icon:"home"},
+  { name: "About", link: "/about" , icon:"user-friends"},
+  { name: "Cocktails", link: "/cocktails", icon:"cocktail"},
+  { name: "Ingredients", link: "/ingredients", icon:"lemon" },
+  { name: "Places", link: "/places", icon:"map-marked" },
+  { name: "Register", link: "/register", icon:"user-plus" },
+  { name: "Login", link: "/login", icon:"sign-in-alt" },
   
 ]
 
 const AuthNav = [
-  { name: "Home", link: "/" },
-  { name: "About", link: "/about" },
-  { name: "Cocktails", link: "/cocktails" },
-  { name: "Ingredients", link: "/ingredients" },
-  { name: "Places", link: "/places" },
-  { name: "Admin", link: "", 
+  { name: "Home", link: "/" , icon:"home"},
+  { name: "About", link: "/about" , icon:"user-friends"},
+  { name: "Cocktails", link: "/cocktails" , icon:"cocktail"},
+  { name: "Ingredients", link: "/ingredients", icon:"lemon" },
+  { name: "Places", link: "/places" , icon:"map-marked"},
+  { name: "Admin", link: "",  icon:"user-cog",
     submenu:[
-      { name: "Add Cocktails", link: "/addCocktails" },
-      { name: "Add Ingredients", link: "/addIngredients" },
-      { name: "Add Places", link: "/addPlaces" },
+      { name: "Add Cocktails", link: "/addCocktails", icon:"glass-cheers" },
+      { name: "Add Ingredients", link: "/addIngredients", icon:"lemon" },
+      { name: "Add Places", link: "/addPlaces", icon:"home" },
     ]
   },
-  { name: "Log out", link: "/logout" },
+  { name: "Log out", link: "/logout", icon:"sign-out-alt" },
 ]
 
 function App() {
