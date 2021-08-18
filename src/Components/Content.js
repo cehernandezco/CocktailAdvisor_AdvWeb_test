@@ -246,14 +246,14 @@ export function Content(props) {
     })
   }
 
-  const registerUser = (username, email, password) => {
+  const registerUser = (username, email, password, name, surname, dob, suburb) => {
     return new Promise( (resolve, reject) => {
       firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         // set user's username
         userCredential.user.updateProfile({displayName: username})
         // add user in the database
-        const userData = {name: username, email: email, created: new Date() }
+        const userData = {username: username, email: email, name: name, surname: surname, dob: dob, suburb: suburb, created: new Date() }
         db.collection('Users').doc(userCredential.user.uid).set(userData)
         .then( (res) => {
           console.log( res)

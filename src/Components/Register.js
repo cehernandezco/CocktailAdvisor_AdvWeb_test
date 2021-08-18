@@ -43,7 +43,7 @@ export function Register(props) {
     const submitHandler = (event) => {
         event.preventDefault()
         const data = new FormData(event.target)
-        props.handler(data.get('email'), data.get('password'), data.get('username'), data.get('name'))
+        props.handler(data.get('username'), data.get('email'), data.get('password'), data.get('name'), data.get('surname'), data.get('dob'), data.get('suburb'))
             .then((response) => {
                 if (response) {
                     history.push((returnPath) ? '/' + returnPath : '/')
@@ -141,7 +141,7 @@ export function Register(props) {
 
                 {/* INPUT AGAIN PASSWORD */}
                 <div className="col-md-6">
-                    <label htmlFor="inputAgainPassword" className="form-label">Input Password Again</label>
+                    <label htmlFor="retypepassword" className="form-label">Input Password Again</label>
                     <input
                         className={validationClass("form-control", validPassword)}
                         type="password"
@@ -171,25 +171,25 @@ export function Register(props) {
 
                 {/* NAME */}
                 <div className="col-md-6">
-                    <label htmlFor="inputName" className="form-label">Name</label>
+                    <label htmlFor="name" className="form-label">Name</label>
                     <input type="text" className="form-control" id="name" name="name" placeholder="Input your Name" />
                 </div>
 
                 {/* SURNAME */}
                 <div className="col-md-4">
-                    <label htmlFor="inputSurname" className="form-label">Surname</label>
+                    <label htmlFor="surname" className="form-label">Surname</label>
                     <input type="text" className="form-control" id="surname" name="surname" placeholder="Input your SurName" />
                 </div>
 
                 {/* DOB */}
                 <div className="col-md-2">
-                    <label htmlFor="inputdob" className="form-label">Date Of Birth</label>
+                    <label htmlFor="dob" className="form-label">Date Of Birth</label>
                     <input type="date" className="form-control" id="dob" name="dob" />
                 </div>
 
                 {/* SUBURB */}
                 <div className="col-12 col-md-6">
-                    <label htmlFor="inputSuburb" className="form-label">Suburb</label>
+                    <label htmlFor="suburb" className="form-label">Suburb</label>
                     <input type="text" className="form-control" id="suburb" name="suburb" placeholder="Input your Subrub" />
                 </div>
 
