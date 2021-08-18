@@ -1,6 +1,20 @@
-export function Logout ( props ) {
+import { useState,useEffect } from "react"
+import { useHistory } from "react-router"
+import {Spinner} from './Spinner'
 
-    return(
-      <button type="submit" className="btn btn-primary" onClick={ props.handler }>Logout</button>
-    )
-  }
+export function Logout ( props ) {
+  const [redirect,setRedirect] = useState('/')
+  const history = useHistory()
+
+  useEffect( () => {
+    if( props.redirect ) {
+      setRedirect( props.redirect )
+    }
+    props.handler().then( () => history.push(redirect) ).catch( (error) => console.log(error) )
+    
+  },[ props, history, redirect])
+
+  return(
+    <Spinner size={64} />
+  )
+}

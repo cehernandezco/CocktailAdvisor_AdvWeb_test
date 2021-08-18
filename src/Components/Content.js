@@ -174,25 +174,42 @@ export function Content(props) {
         .catch((error) => reject(error))
     })
   }
-
-  const getCocktailReviews = (id) => {
-    return new Promise((resolve, reject) => {
-      db.collection("Reviews").where("cocktail", "==", id)
-    .get()
-    .then((querySnapshot) => {
-      let reviews = []
-      querySnapshot.forEach( (doc) => {
-        let review = doc.data()
-        review.id = doc.id
-        reviews.push( review )
+  const addReview = ( data ) => {
+    return new Promise( (resolve,reject) => {
+      console.log( data )
+      // create a ref for cocktail being reviewed
+      db.collection('Reviews').add( data )
+      .then( (docRef) => {
+        const ref = db.doc(docRef.path)
+        const reviewRef = { path: ref }
+        // add ref to users
+        db.collection('Users').doc(data.userId).collection('Reviews').add(reviewRef)
+        .then( () => {
+          resolve(true)
+        })
+        .catch( (error) => reject(error) )
       })
-      resolve( reviews )
-    })
-    .catch((error) => reject(error))
-      
+      .catch( error => reject(error) )
     })
   }
 
+  // get reviews for a cocktail
+  const getCocktailReviews = ( cocktailId ) => {
+    return new Promise( (resolve,reject) => {
+      db.collection('Reviews').where('cocktail', "==", cocktailId ).get()
+      .then( (res) => {
+        let reviews = []
+        res.forEach( (doc) => {
+          let review = doc.data()
+          reviews.push( review )
+        })
+        resolve( reviews )
+      })
+      .catch( (error) => {
+        reject( error )
+      })
+    })
+  }
 
   const getIngredientsDetail = ( id ) => {
     return new Promise( (resolve,reject) => {
@@ -229,21 +246,27 @@ export function Content(props) {
     })
   }
 
-  const registerUser = (email, password, userName, name) => {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+  const registerUser = (username, email, password) => {
+    return new Promise( (resolve, reject) => {
+      firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        // do something with the user object
-        //console.log( userCredential.user.uid )
-        //addUser(userName, name)
-
-        setUser(userCredential.user)
-        setAuth(true)
-        props.authHandler(true)
+        // set user's username
+        userCredential.user.updateProfile({displayName: username})
+        // add user in the database
+        const userData = {name: username, email: email, created: new Date() }
+        db.collection('Users').doc(userCredential.user.uid).set(userData)
+        .then( (res) => {
+          console.log( res)
+          setUser(userCredential.user)
+          setAuth(true)
+          props.authHandler(true)
+          resolve( true )
+        })
       })
       .catch((error) => {
-        // do something with the error
-        console.log(error)
+        reject( error )
       })
+    })
   }
 
 
@@ -265,13 +288,17 @@ export function Content(props) {
   }
 
   const logoutUser = () => {
-    firebase.auth().signOut()
+    return new Promise( (resolve,reject) => {
+      firebase.auth().signOut()
       .then(() => {
         // do something after signout
         setUser(null)
         setAuth(false)
         props.authHandler(false)
+        resolve( true )
       })
+      .catch((error) => reject(false) )
+    })
   }
 
 
@@ -309,7 +336,13 @@ export function Content(props) {
         </Route>
         
         <Route path="/cocktail/:cocktailId">
-          <CocktailsDetail handler={getCocktailsDetail} auth={auth} handlerReviews = {getCocktailReviews}/>
+          <CocktailsDetail 
+            handler={getCocktailsDetail} 
+            auth={auth} 
+            reviewHandler={addReview} 
+            user={user}
+            getReviews={getCocktailReviews}
+            />
         </Route>
         
         <Route path="/addIngredients">

@@ -3,12 +3,16 @@ import { useParams, useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 import {Spinner} from './Spinner';
+import {Reviews} from './Reviews'
 
 
 export function CocktailsDetail(props) {
   const [cocktail, setCocktail] = useState()
   const [reviewsData, setReviewsData] = useState()
+  const [cocktailReviews, setCocktailReviews] = useState()
   const [showReview, setShowReview] = useState(false)
+// disable review button if user has reviewed the cocktail
+  const [disableReview, setDisableReview] = useState( false )
 
   const { cocktailId } = useParams()
   const history = useHistory()
@@ -24,69 +28,57 @@ export function CocktailsDetail(props) {
         .then((cocktailData) => setCocktail(cocktailData))
         .catch((error) => console.log(error))
     }
-  })
-
-  useEffect(() => {
-    if (!cocktail) {
-      props.handlerReviews(cocktailId)
-        .then((reviewsData) => setReviewsData(reviewsData))
-        .catch((error) => console.log(error))
+    if( !cocktailReviews ) {
+      getReviews()
     }
   })
+
+  useEffect( () => {
+    if( cocktailReviews && props.user ) {
+      cocktailReviews.forEach( (review) => {
+        if( review.userId == props.user.uid ) {
+          setDisableReview( true )
+        }
+      })
+    }
+    // check if user has this cocktail in favourites, disable fav button if yes
+  }, [cocktailReviews])
+
+  const getReviews = () => {
+    props.getReviews( cocktailId )
+      .then( (result) => {
+        console.log( ...result )
+        setCocktailReviews( result )
+      })
+      .catch( (error) => console.log(error) )
+  }
 
   const addReview = () => {
     if (props.auth === true) {
       setShowReview(true)
     } else {
-      history.push('/login')
+      // if user is not logged in take them to login page and set this page as a return path,
+      // so user can be taken back here after login/ register
+      history.push(`/login?returnPath=cocktail/${cocktailId}&msg=${escape("Log in to review "+cocktail.name)}`)
+      
     }
   }
 
-  const Reviews = () => {
-    if (!reviewsData) {
-      return (
-        <div className="reviews">
-          <h2>Getting data ...</h2>
-        </div>
-      )
-    }
-    else {
-      const ReviewsCocktails = reviewsData.map((item, key) => {
-        return (
-          <div className="col-md-3 my-2" key={key}>
-            <div className="card position-relative">
-              <div className="card-body">
-                <h5 className="card-title">{item.name}</h5>
-              </div>
-
-              <Link
-                className="position-absolute"
-                to={"cocktail/" + item.cocktail}
-                style={{ top: 0, bottom: 0, left: 0, right: 0 }} />
-              <img
-                src={item.photo}
-                className="card-img-top border "
-                alt={item.name}
-                style={{ width: '100%', height: '300px', objectFit: 'cover', objectPosition: 'center' }}
-              />
-              <div className="card-body">
-                <p className="card-title">{item.comment}</p>
-
-              </div>
-            </div>
-          </div>
-        )
-      })
-      return (
-        <div className="Reviews">
-          <h2>Reviews</h2>
-          <div className="row">
-            {ReviewsCocktails}
-          </div>
-        </div>
-      )
-    }
+  const handleReview = ( event ) => {
+    event.preventDefault()
+    const data = new FormData( event.target )
+    let review = {}
+    data.forEach( (value,key) => review[key] = value )
+    props.reviewHandler( review )
+      .then( () => {
+        setDisableReview(true)
+        setShowReview(false)
+        getReviews()
+      } )
+      .catch( error => console.log(error) )
   }
+
+  
 
 
   /* const addToFavourites = () => {
@@ -125,7 +117,8 @@ export function CocktailsDetail(props) {
           <img className="img-fluid img-thumbnail mb-4" src={cocktail.photo} />
         </div>
         <div className="col-md-6">
-          <h5>{cocktail.name}</h5>
+          <h1>{cocktail.name}</h1>
+          <br></br>
           <h6 className="text-dark">{cocktail.description}</h6>
           <br></br>
           <h4>Ingredients:</h4>
@@ -136,7 +129,9 @@ export function CocktailsDetail(props) {
 
             <button type="button"
               className="btn btn-outline-primary mt-2"
-              onClick={addReview}>
+              onClick={addReview}
+              disabled={ (disableReview) ? true : false }
+            >
               Review Cocktail
             </button>
 
@@ -147,7 +142,8 @@ export function CocktailsDetail(props) {
                         </button> */}
           </div>
           <div className="mt-4" style={{ display: (showReview === true) ? "block" : "none" }}>
-            <form id="review">
+          <h5>Review {cocktail.name}</h5>
+            <form id="review" onSubmit={handleReview}>
               <div className="d-flex">
 
                 <ReactStars
@@ -163,22 +159,16 @@ export function CocktailsDetail(props) {
               </div>
               <input type="hidden" name="stars" id="stars" />
 
-
-              {/* <select className="form-select  mb-3" name="stars" id="stars">
-                                <option value="1">1 Star</option>
-                                <option value="2">2 Stars</option>
-                                <option value="3">3 Stars</option>
-                                <option value="4">4 Stars</option>
-                                <option value="5">5 Stars</option>
-                            </select> */}
               <label>Say something about the cocktail</label>
               <textarea name="comment" cols="30" rows="3" className="form-control" placeholder="..."></textarea>
+              <input type="hidden" name="cocktail" value={cocktailId} />
+              <input type="hidden" name="user" value={(props.user) ? props.user.uid: ""} />
+              <input type="hidden" name="username" value={(props.user) ? props.user.displayName : ""} />
               <button type="submit" className="btn btn-primary mb-2">Save</button>
             </form>
           </div>
+          <Reviews items={cocktailReviews}/>
         </div>
-        {Reviews}
-
       </div>
 
     )
