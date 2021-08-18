@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { SubMenu } from "./SubMenu";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export function Header( props ) {
     
@@ -8,8 +9,10 @@ export function Header( props ) {
         if(item.submenu === undefined){
             return (
                 <li className="nav-item">
+                    
                     <NavLink to = {item.link} className = "nav-link" activeClassName ="active" > 
-                        {item.name}
+                    <FontAwesomeIcon icon={item.icon} /> 
+                        &nbsp;{item.name}
                     </NavLink>
                 </li> 
             )
