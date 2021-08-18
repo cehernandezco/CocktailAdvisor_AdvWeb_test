@@ -15,7 +15,7 @@ export function Reviews(props) {
       return (
         <div className="review card my-2" key={key}>
           <div className="card-body">
-            <h6 className="card-title">{item.comment}</h6>
+            <h6>{((item.username === "undefined") || (item.username === ""))? "unknown" : item.username}</h6>
             <ReactStars
                   count={5}
                   value={item.stars}
@@ -28,6 +28,7 @@ export function Reviews(props) {
                   activeColor="#ffd700"
 
                 />
+                <h6 className="card-title">{item.comment}</h6>
           </div>
         </div>
       )
