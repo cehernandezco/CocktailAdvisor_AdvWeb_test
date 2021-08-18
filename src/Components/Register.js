@@ -1,3 +1,9 @@
+import { useState, useEffect } from "react"
+import { Link } from 'react-router-dom'
+import { useHistory, useLocation } from "react-router"
+import { emailValidator, userNameValidator, passwordValidator } from "./Validators"
+
+
 export function Register(props) {
 
     const submitHandler = (event) => {
