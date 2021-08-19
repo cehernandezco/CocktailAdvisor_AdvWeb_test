@@ -26,6 +26,7 @@ import { SearchResults } from './SearchResults';
 export function Content(props) {
   const [auth, setAuth] = useState(false)
   const [user, setUser] = useState()
+  const [admin, setAdmin] = useState(false)
 
   const [ cocktailData, setCocktailData ] = useState()
   const [ ingredientData, setIngredientData ] = useState()
@@ -56,11 +57,13 @@ export function Content(props) {
       if (user) {
         setAuth(true)
         setUser(user)
+        
         props.authHandler(true)
       }
       else {
         setAuth(false)
         setUser(null)
+        setAdmin(false)
         props.authHandler(false)
       }
     })
@@ -409,13 +412,35 @@ export function Content(props) {
     })
   }
 
-
+  const isUserAdmin = (email) => {
+    return new Promise((resolve, reject) => {
+      db.collection('Admins').where('email', "==", email ).get()
+      .then( (res) => {
+        console.log(res)
+        if(res.length === 0){
+          console.log("admin not found")
+          setAdmin(false)
+          props.authAdmin(false)  
+        }else{
+          console.log("YOU ARE an admin ")
+          setAdmin(true)
+          props.authAdmin(true)    
+        }
+               
+      })
+      .catch( (error) => {
+        reject( error )
+      })
+    })
+  }
+  
   const loginUser = (email, password) => {
     return new Promise((resolve, reject) => {
       firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         setUser(userCredential.user)
         setAuth(true)
+        isUserAdmin(email)
         props.authHandler(true)
         resolve( true )
       })

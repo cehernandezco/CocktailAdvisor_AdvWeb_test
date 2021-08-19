@@ -31,6 +31,15 @@ const AuthNav = [
   { name: "Cocktails", link: "/cocktails" , icon:"cocktail"},
   { name: "Ingredients", link: "/ingredients", icon:"lemon" },
   { name: "Places", link: "/places" , icon:"map-marked"},
+  { name: "Log out", link: "/logout", icon:"sign-out-alt" },
+]
+
+const AuthNavAdmin = [
+  { name: "Home", link: "/" , icon:"home"},
+  { name: "About", link: "/about" , icon:"user-friends"},
+  { name: "Cocktails", link: "/cocktails" , icon:"cocktail"},
+  { name: "Ingredients", link: "/ingredients", icon:"lemon" },
+  { name: "Places", link: "/places" , icon:"map-marked"},
   { name: "Admin", link: "",  icon:"user-cog",
     submenu:[
       { name: "Add Cocktails", link: "/addCocktails", icon:"glass-cheers" },
@@ -44,11 +53,22 @@ const AuthNav = [
 function App() {
   const [auth,setAuth] = useState( false )
   const [searchHandler ,setSearchHandler] = useState( false )
+  const [admin, setAdmin] = useState(false)
 
+  const authUser = () => {
+    if(auth){
+      if(admin)
+        return AuthNavAdmin
+      else
+        return AuthNav
+    }else{
+      return Nav
+    }
+  }
   return (
     <div className="App">
-      <Header name="Cocktail Advisor" navigation={ (auth) ? AuthNav : Nav } searchHandler = {setSearchHandler} />
-      <Content authHandler = {setAuth}/>
+      <Header name="Cocktail Advisor" navigation={ (auth) ? ((admin)? AuthNavAdmin : AuthNav) : Nav } searchHandler = {setSearchHandler} />
+      <Content authHandler = {setAuth} authAdmin = {setAdmin}/>
       <Footer />
     </div>
   );
