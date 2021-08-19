@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {Spinner} from './Spinner';
+import ReactStars from "react-rating-stars-component";
 
 export function Cocktail ( props ) {
   const [ data, setData ] = useState()
@@ -29,8 +30,20 @@ export function Cocktail ( props ) {
             style={{width: '100%', height: '300px', objectFit: 'cover', objectPosition: 'center'}}
             />
             <div className="card-body">
-              <h5 className="card-title">{item.name}</h5>
-              
+              <h5 className="card-title">{item.name}
+              <div className="starsCard">
+                <ReactStars
+                    count={5}
+                    edit = {false}
+                    size={15}
+                    isHalf={true}
+                    emptyIcon={<i className="far fa-star"></i>}
+                    halfIcon={<i className="fa fa-star-half-alt"></i>}
+                    fullIcon={<i className="fa fa-star"></i>}
+                    activeColor="#ffd700"
+                  />
+                  
+                </div></h5>
             </div>
             
           </div>
