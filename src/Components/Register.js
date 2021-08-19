@@ -61,7 +61,7 @@ export function Register(props) {
     const submitHandler = (event) => {
         event.preventDefault()
         const data = new FormData(event.target)
-        props.handler(data.get('username'), data.get('email'), data.get('password'), data.get('retypepassword'), data.get('name'), data.get('surname'), data.get('dob'), data.get('suburb'))
+        props.handler(data.get('username'), data.get('email'), data.get('password'), data.get('name'), data.get('surname'), data.get('dob'), data.get('suburb'))
             .then((response) => {
                 if (response) {
                     history.push((returnPath) ? '/' + returnPath : '/')
