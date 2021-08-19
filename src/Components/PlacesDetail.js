@@ -20,17 +20,20 @@ export function PlacesDetail(props){
     else {
         console.log( place )
         return(
+        
             <div className ="row">
-                <div className="col-md-6">
+                <div className="col-md-6 gauche mt-5">
                     <img className="img-fluid img-thumbnail mb-4" src={place.photo}/>  
                 </div>
-                <div className="col-md-6">
-                    <h3> <strong> {place.name} </strong></h3>
+                <div className="col-md-6 corps mt-5">
+                    <h2> <strong> {place.name} </strong></h2>
                     <h4> <em>Address:</em> {place.address}</h4>
-                    <h5> <em>Opening hours:</em> {place.openingHours}</h5>
-                    <h6> <em>Closing day:</em> {place.closingDays}</h6>            
+                    <h5 className="hours mt-3"> <em >Opening hours:</em> {place.openingHours}</h5>
+                    <h6 className="closingDay mt-3"> <em>Closing day:</em> {place.closingDays}</h6>         
+                    <h6 className="direction mt-4">Need directions? <a href="https://www.google.com/maps">Google Maps </a> </h6>
                 </div>
             </div>
+    
         )
     }
 }
