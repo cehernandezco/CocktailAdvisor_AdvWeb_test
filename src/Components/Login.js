@@ -133,7 +133,7 @@ export function Login ( props ) {
         </div>
         <div className="my-4 text-center">
           <Link to={(returnPath) ? "/register?returnPath=" + returnPath : "/register"}>
-            Don't have an account? Sign up here
+            Don't have an account? Register here
           </Link>
         </div>
       </form>
