@@ -43,10 +43,11 @@ const AuthNav = [
 
 function App() {
   const [auth,setAuth] = useState( false )
+  const [searchHandler ,setSearchHandler] = useState( false )
 
   return (
     <div className="App">
-      <Header name="Cocktail Advisor" navigation={ (auth) ? AuthNav : Nav } />
+      <Header name="Cocktail Advisor" navigation={ (auth) ? AuthNav : Nav } searchHandler = {setSearchHandler} />
       <Content authHandler = {setAuth}/>
       <Footer />
     </div>

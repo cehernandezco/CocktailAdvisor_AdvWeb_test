@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { SubMenu } from "./SubMenu";
+import { Search } from "./Search";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export function Header( props ) {
@@ -47,10 +48,7 @@ export function Header( props ) {
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         {SiteNav}
                     </ul>
-                    <form className="d-flex">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-primary" type="submit">Search</button>
-                    </form>
+                    <Search searchHandler={props.searchHandler}/>
                 </div>
             </div>
         </nav>

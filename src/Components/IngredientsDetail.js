@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import {Spinner} from './Spinner';
 
 export function IngredientsDetail(props){
     const [ingredient, setIngredient] = useState()
@@ -15,7 +16,7 @@ export function IngredientsDetail(props){
     })
 
     if( !ingredient) {
-        return <h3>Loading ingredient...</h3>
+        return <Spinner size={64}/>
     }
     else {
         console.log( ingredient )

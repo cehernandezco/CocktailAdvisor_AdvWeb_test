@@ -21,6 +21,7 @@ import { Place } from './Places';
 import { CocktailsDetail } from './CocktailsDetail';
 import { IngredientsDetail } from './IngredientsDetail';
 import { PlacesDetail } from './PlacesDetail';
+import { SearchResults } from './SearchResults';
 
 export function Content(props) {
   const [auth, setAuth] = useState(false)
@@ -29,6 +30,14 @@ export function Content(props) {
   const [ cocktailData, setCocktailData ] = useState()
   const [ ingredientData, setIngredientData ] = useState()
   const [ placeData, setPlaceData ] = useState()
+
+  const [ searchCocktailData, setSearchCocktailData ] = useState()
+  const [ searchIngredientData, setSearchIngredientData ] = useState()
+  const [ searchPlaceData, setSearchPlaceData ] = useState()
+
+  const [searchHandler, setSearchHandler] = useState()
+
+
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -79,6 +88,8 @@ export function Content(props) {
     }
   }, [placeData])
 
+
+
   const db = firebase.firestore()
 
   const addCocktail = (data) => {
@@ -103,14 +114,7 @@ export function Content(props) {
     })
   }
 
-  const addUser = (data) => {
-    return new Promise((resolve, reject) => {
-      db.collection('Users').add(data)
-        .then(() => resolve(true))
-        .catch((error) => reject(error))
-    })
-  }
-
+  
   const readCocktailsData = () => {
     return new Promise((resolve, reject) => {
       db.collection('Cocktails').onSnapshot((querySnapshot) => {
@@ -229,6 +233,142 @@ export function Content(props) {
       })
       .catch((error) => reject( error ))
     })
+  }
+  //Search
+  const getSearchCocktail = ( query ) => {
+    return new Promise( (resolve,reject) => {
+      //Cocktails
+      console.log("inside of getSearchCocktail")
+      console.log(query)
+
+      var cocktailsRef = db.collection('Cocktails');
+      var queryCocktails = cocktailsRef.where("name_insensitive", "==", query);
+      queryCocktails.get()
+      .then( (querySnapshot) => {
+        let searchCocktailData = []
+        querySnapshot.forEach( (doc) => {
+          let cocktail = doc.data()
+          cocktail.id = doc.id
+          
+          searchCocktailData.push( cocktail )
+        })
+        
+        resolve( searchCocktailData )
+        
+      })
+      .catch( (error) => {
+        reject( error )
+      })
+    })
+  }
+
+  const getSearchIngredients = ( query ) => {
+    
+    return new Promise( (resolve,reject) => {
+      ///Ingredients
+      console.log("inside of getSearchIngredients")
+      console.log(query)
+      var ingredientsRef = db.collection('Ingredients');
+      var queryIngredients = ingredientsRef.where("name_insensitive", "==", query);
+      queryIngredients.get()
+      .then( (res) => {
+        let searchIngredientData = []
+        res.forEach( (doc) => {
+          let ingredient = doc.data()
+          ingredient.id = doc.id
+          searchIngredientData.push( ingredient )
+        })
+        
+        resolve( searchIngredientData )
+      })
+      .catch( (error) => {
+        reject( error )
+      })
+      
+    })
+  }
+
+  const getSearchPlaces = ( query ) => {
+    
+    return new Promise( (resolve,reject) => {
+      ///Places
+      console.log("inside of getSearchPlaces")
+      console.log(query)
+      var placesRef = db.collection('Places');
+      var queryPlaces = placesRef.where("name_insensitive", "==", query);
+      queryPlaces.get()
+      .then( (res) => {
+        let searchPlaceData = []
+        res.forEach( (doc) => {
+          let place = doc.data()
+          place.id = doc.id
+          searchPlaceData.push( place )
+        })
+        
+        resolve( searchPlaceData )
+      })
+      .catch( (error) => {
+        reject( error )
+      })
+      
+    })
+  }
+  const getSearch = ( query ) => {
+    return new Promise( (resolve,reject) => {
+      console.log("getSearch")
+      console.log(query)
+
+      let searchResult = []
+
+      getSearchCocktail(query)
+      .then( ( data ) => {
+        if(data){
+          console.log("getSearchCocktail - Result")
+          console.log(data)
+          
+          setSearchCocktailData( data )
+          searchResult.push(data)
+        }
+      })
+      .catch( (error) => console.log(error) )
+
+      getSearchIngredients(query)
+      .then( ( data ) => {
+        if(data){
+          console.log("getSearchIngredients - Result")
+          console.log(data)
+          setSearchIngredientData( data )
+          
+          searchResult.push(data)
+        }
+        
+      })
+      .catch( (error) => console.log(error) )
+
+      getSearchPlaces(query)
+      .then( ( data ) => {
+        if(data){
+          console.log("getSearchPlaces - Result")
+          console.log(data)
+          setSearchPlaceData( data )
+          
+          searchResult.push(data)
+        }
+      })
+      .catch( (error) => console.log(error) )
+      console.log("end of search")
+      console.log(searchResult)
+      //searchResult.push(cocktails)
+      //searchResult.push(ingredients)
+      //searchResult.push(places)
+      resolve(searchResult)
+      
+      .catch( (error) => {
+        reject( error )
+      })
+    })
+    
+    
   }
 
   const storage = firebase.storage()
@@ -356,6 +496,9 @@ export function Content(props) {
         </Route>
         <Route path="/place/:placeId">
           <PlacesDetail handler={getPlacesDetail} />
+        </Route>
+        <Route path="/search/:query">
+          <SearchResults handler={getSearch} handlerSearchCocktail={getSearchCocktail} handlerSearchIngredient={getSearchIngredients} handlerSearchPlace={getSearchPlaces} />
         </Route>
       </Switch>
     </div>
