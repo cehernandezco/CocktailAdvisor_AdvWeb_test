@@ -34,7 +34,7 @@ export function Home(props) {
                 </button>
             </div>
             <div>
-                <h4 className="email text-center mb-4">For any questions send us an email at: <em> <a href="https://mail.google.com">cocktailadvisor@gmail.com.au </a></em></h4>
+                <h4 className="email text-center mb-4">For any questions send us an email at: <em> <a href="mailto:cocktailadvisor@gmail.com.au">cocktailadvisor@gmail.com.au </a></em></h4>
             </div>
         </div>
     )
